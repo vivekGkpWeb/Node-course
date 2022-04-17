@@ -1,19 +1,21 @@
 const geocode = require('./utils/geocode')
 const forecast = require('./utils/forecast')
 
-const location = process.argv[2]
+const searchLocation = process.argv[2]
 
-if(!location){
+if(!searchLocation){
     console.log('Please provide a location!')
 }else{
-    geocode.get(location,(error, geoCodeData)=>{
+    geocode.get(searchLocation,(error, {location,latitude,longitude}={})=>{
     
         if(error){
             return console.log('Error: ',error)
         }
-        console.log('Query: ',location)
-        console.log('Place: ',geoCodeData.location)
-        forecast.get(geoCodeData.latitude,geoCodeData.longitude,(error, foreCastData)=>{
+        
+        console.log('Query: ',searchLocation)
+        console.log('Place: ',location)
+
+        forecast.get(latitude,longitude,(error, foreCastData)=>{
     
             if(error){
                 return console.log('Error: ',error)
